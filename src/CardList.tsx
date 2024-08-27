@@ -4,6 +4,7 @@ import CharacterCard from "./CharacterCard.tsx";
 import { CharacterType } from "./CharacterType";
 import { RootState } from "./store.js";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "./slices/charactersSlice.ts";
 
 export const CardList = () => {
   const characters = useSelector((state: RootState) => state.characters.value);
@@ -11,6 +12,9 @@ export const CardList = () => {
 
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
   const onFilter = () => {
     setIsFilterOpen(true);
 
@@ -18,15 +22,6 @@ export const CardList = () => {
       setIsFilterOpen((prev) => !prev);
     }
   };
-
-  // async function fetchCharacters() {
-  //   const response = await fetch(
-  //     `https://hp-api.onrender.com/api/characters/staff`
-  //   );
-  //   const data = await response.json();
-  //   console.log(data);
-  //   setCharacters(data);
-  // }
 
   return (
     <>

@@ -28,6 +28,18 @@ export const charactersSlice = createSlice({
     ),
   },
   reducers: {
+    fetchData: (state) => {
+      // async function fetchDataAsync() {
+      // const response = await fetch(
+      //   "https://hp-api.onrender.com/api/characters/staff"
+      // );
+      // const data = await response.json();
+      // console.log(data);
+      // return data;
+      // }
+      // fetchDataAsync().then((data) => (state.value = data));
+    },
+
     remove: (state, action) => {
       const id: String = action.payload;
 
@@ -45,6 +57,6 @@ export const charactersSlice = createSlice({
   },
 });
 
-export const { remove, updateLike } = charactersSlice.actions;
+export const { remove, updateLike, fetchData } = charactersSlice.actions;
 
 export default charactersSlice.reducer;
