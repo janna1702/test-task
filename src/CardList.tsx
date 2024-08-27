@@ -2,43 +2,41 @@ import React from "react";
 import { useEffect, useState } from "react";
 import CharacterCard from "./CharacterCard.tsx";
 import { CharacterType } from "./CharacterType";
-// to do
-//filter state back
-// character card to use again for filtered cards
+import { RootState } from "./store.js";
+import { useSelector, useDispatch } from "react-redux";
 
 export const CardList = () => {
-  const [characters, setCharacters] = useState<CharacterType[]>([]);
+  const characters = useSelector((state: RootState) => state.characters.value);
+  const dispatch = useDispatch();
+
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   const onFilter = () => {
     setIsFilterOpen(true);
-  };
 
-  useEffect(() => {
-    fetchCharacters();
-  }, []);
-
-  async function fetchCharacters() {
-    const response = await fetch(
-      `https://hp-api.onrender.com/api/characters/staff`
-    );
-    const data = await response.json();
-    console.log(data);
-    setCharacters(data);
-  }
-
-  const onChangeLike = (id: string) => {
-    const newCharacters = [...characters];
-    const characterToLike = newCharacters.find((element) => element.id === id);
-    if (characterToLike === undefined) {
-      return;
+    if (isFilterOpen === true) {
+      setIsFilterOpen((prev) => !prev);
     }
-    characterToLike.like = !characterToLike.like;
-    setCharacters(newCharacters);
   };
+
+  // async function fetchCharacters() {
+  //   const response = await fetch(
+  //     `https://hp-api.onrender.com/api/characters/staff`
+  //   );
+  //   const data = await response.json();
+  //   console.log(data);
+  //   setCharacters(data);
+  // }
+
   return (
     <>
-      <button onClick={onFilter}>filter</button>
+      <button
+        onClick={() => {
+          onFilter();
+        }}
+      >
+        filter
+      </button>
       {isFilterOpen ? (
         <>
           {characters
@@ -46,7 +44,7 @@ export const CardList = () => {
               return element.like === true;
             })
             .map((element) => {
-              return <h1>{element.name}</h1>;
+              return <CharacterCard currentCharacter={element} />;
             })}
         </>
       ) : (
@@ -54,17 +52,7 @@ export const CardList = () => {
           {characters.map((character, index) => {
             return (
               <>
-                <CharacterCard
-                  key={index}
-                  currentCharacter={character}
-                  characters={characters}
-                  setCharacters={setCharacters}
-                  onChangeLike={onChangeLike}
-                  // patronus={element.patronus}
-                  // ancestry={element.ancestry}
-                  // house={element.house}
-                  // gender={element.gender}
-                />
+                <CharacterCard key={index} currentCharacter={character} />
               </>
             );
           })}
