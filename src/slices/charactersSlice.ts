@@ -1,45 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CharacterType } from "../CharacterType";
+import axios from "axios";
+
+export const fetchContent = createAsyncThunk(
+  "characters/fetchContent",
+  async () => {
+    const res = await axios("https://hp-api.onrender.com/api/characters/staff");
+    const data = await res.data;
+    return data;
+  }
+);
 
 export const charactersSlice = createSlice({
   name: "characters",
   initialState: {
-    value: new Array<CharacterType>(
-      {
-        name: "urmat",
-        id: "1",
-        image: "https://ik.imagekit.io/hpapi/mcgonagall.jpg",
-        patronus: "dasdasd",
-        house: "house",
-        ancestry: "acn",
-        gender: "los",
-        like: false,
-      },
-      {
-        name: "jandos",
-        id: "2",
-        image: "https://ik.imagekit.io/hpapi/snape.jpg",
-        patronus: "dasdasd",
-        house: "house",
-        ancestry: "acn",
-        gender: "los",
-        like: false,
-      }
-    ),
+    value: new Array<CharacterType>(),
   },
   reducers: {
-    fetchData: (state) => {
-      // async function fetchDataAsync() {
-      // const response = await fetch(
-      //   "https://hp-api.onrender.com/api/characters/staff"
-      // );
-      // const data = await response.json();
-      // console.log(data);
-      // return data;
-      // }
-      // fetchDataAsync().then((data) => (state.value = data));
-    },
-
     remove: (state, action) => {
       const id: String = action.payload;
 
@@ -55,8 +32,13 @@ export const charactersSlice = createSlice({
       characterToLike.like = !characterToLike.like;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchContent.fulfilled, (state, action) => {
+      state.value = action.payload;
+    });
+  },
 });
 
-export const { remove, updateLike, fetchData } = charactersSlice.actions;
+export const { remove, updateLike } = charactersSlice.actions;
 
 export default charactersSlice.reducer;
