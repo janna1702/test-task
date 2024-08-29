@@ -18,7 +18,7 @@ export const CharacterPage = () => {
 
   const filteredCharacters = characters.find((element) => element.id === id);
   if (filteredCharacters === undefined) {
-    return <div>404 id not found</div>;
+    return <div>404 id not found!</div>;
   }
   return (
     <div className="flex flex-col w-full ">
