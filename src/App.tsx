@@ -8,8 +8,8 @@ function App() {
   return (
     <div className="w-full h-screen flex items-center justify-center bg-zinc-100">
       <Routes>
-        <Route path="/" element={<CardList />} />
-        <Route path="/page" element={<CharacterPage />} />
+        <Route path="/test-task" element={<CardList />} />
+        <Route path="/page/:id" element={<CharacterPage />} />
       </Routes>
     </div>
   );

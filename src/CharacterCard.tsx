@@ -14,8 +14,9 @@ type CardProps = {
 const CharacterCard: FC<CardProps> = (props) => {
   const { Title } = Typography;
   const navigate = useNavigate();
+
   const handleClick = () => {
-    navigate("/page");
+    navigate(`/page/${props.currentCharacter.id}`);
   };
   const dispatch = useDispatch();
   return (

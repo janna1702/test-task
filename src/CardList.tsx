@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import CharacterCard from "./CharacterCard.tsx";
-import { CharacterType } from "./CharacterType";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch } from "antd";
 import { fetchContent } from "./slices/charactersSlice.ts";
@@ -30,8 +29,8 @@ export const CardList = () => {
   };
 
   return (
-    <div className="flex flex-col w-full ">
-      <div className="pl-20 indent-2">
+    <div className="flex flex-col w-full box-content overflow-y-scroll">
+      <div className="pl-20 ">
         <Switch
           onChange={changeMode}
           onClick={() => {
@@ -46,8 +45,8 @@ export const CardList = () => {
             .filter((element) => {
               return element.like === true;
             })
-            .map((element) => {
-              return <CharacterCard currentCharacter={element} />;
+            .map((element, index) => {
+              return <CharacterCard key={index} currentCharacter={element} />;
             })}
         </div>
       ) : (
