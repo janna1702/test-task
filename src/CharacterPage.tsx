@@ -13,12 +13,12 @@ export const CharacterPage = () => {
   const id = params.id;
 
   const goBack = () => {
-    navigate("/test-task");
+    navigate("/");
   };
 
   const filteredCharacters = characters.find((element) => element.id === id);
   if (filteredCharacters === undefined) {
-    return;
+    return <div>404 id not found</div>;
   }
   return (
     <div className="flex flex-col w-full ">
